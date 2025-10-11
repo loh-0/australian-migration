@@ -6,7 +6,6 @@
   "data": {
     "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"
   },
-
   "params": [
     {
       "name": "yrSel",
@@ -14,7 +13,6 @@
       "bind": {"input": "range", "min": 2004, "max": 2023, "step": 1, "name": "Year: "}
     }
   ],
-
   "transform": [
     {"fold": ["australian_born", "overseas_born", "total"], "as": ["series_key", "value"]},
     {
@@ -22,7 +20,6 @@
       "as": "Series"
     }
   ],
-
   "layer": [
     {
       "mark": {"type": "line", "strokeWidth": 2},
@@ -50,7 +47,6 @@
         ]
       }
     },
-
     {
       "transform": [
         {"filter": "datum.year == yrSel"},
@@ -59,7 +55,6 @@
       "mark": {"type": "rule", "stroke": "#666", "strokeDash": [4,4]},
       "encoding": {"x": {"field": "x", "type": "quantitative"}}
     },
-
     {
       "transform": [{"filter": "datum.year == yrSel"}],
       "mark": {"type": "point", "filled": true, "size": 80, "stroke": "white", "strokeWidth": 1},
@@ -69,11 +64,9 @@
         "color": {"field": "Series", "legend": null}
       }
     },
-
-    /* smarter two-line annotation for the selected year */
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/net_flow_migration.csv"
+        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"
       },
       "transform": [
         {"filter": "datum.year == yrSel"},
@@ -81,7 +74,7 @@
         {
           "lookup": "prevYear",
           "from": {
-            "data": {"url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/net_flow_migration.csv"},
+            "data": {"url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"},
             "key": "year",
             "fields": ["australian_born", "overseas_born", "total"]
           },
@@ -106,7 +99,6 @@
       }
     }
   ],
-
   "config": {
     "view": {"stroke": null},
     "background": "#f7fbff",
