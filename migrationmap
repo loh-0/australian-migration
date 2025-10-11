@@ -1,0 +1,87 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1100,
+  "height": 560,
+  "title": { "text": "Where do Australian Migrants come from?", "fontWeight": "bold" },
+  "projection": { "type": "naturalEarth1" },
+
+  "params": [
+    {
+      "name": "year_sel",
+      "value": 2023,
+      "bind": { "input": "range", "min": 2004, "max": 2023, "step": 1, "name": "Year: " }
+    }
+  ],
+
+  "layer": [
+    {
+      "data": { "sphere": true },
+      "mark": { "type": "geoshape", "fill": "#deeff7" }
+    },
+    {
+      "data": { "graticule": { "step": [20, 20] } },
+      "mark": { "type": "geoshape", "stroke": "#afc5d4", "strokeOpacity": 0.35, "strokeWidth": 0.5 }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+        "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+      },
+      "mark": { "type": "geoshape", "fill": "#f6f6f6", "stroke": "#cfd8df", "strokeWidth": 0.6 }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/migration.csv"
+      },
+      "transform": [
+        { "filter": "datum.year == year_sel" },
+        {
+          "lookup": "iso3",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+              "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+            },
+            "key": "properties.ADM0_A3",
+            "fields": ["geometry"]
+          },
+          "as": "geo"
+        },
+        { "filter": "isValid(datum.geo)" }
+      ],
+      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.5 },
+      "encoding": {
+        "shape": { "field": "geo", "type": "geojson" },
+        "color": {
+          "condition": {
+            "test": "abs(datum.migrants) < 5000",
+            "value": "#d9d9d9"
+          },
+          "field": "migrants",
+          "type": "quantitative",
+          "title": "Net migrants",
+          "scale": {
+            "type": "symlog",
+            "constant": 1000,
+            "scheme": "redblue",
+            "domainMid": 0,
+            "clamp": true
+          },
+          "legend": { "subtitle": "Grey = |net| < 5k" }
+        },
+        "tooltip": [
+          { "field": "country", "title": "Country" },
+          { "field": "iso3", "title": "ISO3" },
+          { "field": "migrants", "title": "Net migrants", "format": "," },
+          { "field": "year", "title": "Year" }
+        ]
+      }
+    }
+  ],
+
+  "config": {
+    "background": "#f7fbff",
+    "view": { "stroke": null },
+    "legend": { "labelLimit": 140, "titleFontWeight": "bold" }
+  }
+}
