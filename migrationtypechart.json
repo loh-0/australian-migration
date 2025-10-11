@@ -4,7 +4,7 @@
   "height": 450,
   "title": "Visa Arrivals by Type (2004–2023)",
   "data": {
-    "url": "https://raw.githubusercontent.com/loh-0/fit3179-week9-map/refs/heads/main/migration_visa.csv"
+    "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/migration_visa.csv"
   },
   "mark": {
     "type": "area",
