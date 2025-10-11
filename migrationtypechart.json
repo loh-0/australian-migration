@@ -1,0 +1,42 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 900,
+  "height": 450,
+  "title": "Visa Arrivals by Type (2004–2023)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/loh-0/fit3179-week9-map/refs/heads/main/migration_visa.csv"
+  },
+  "mark": {
+    "type": "area",
+    "interpolate": "monotone"
+  },
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "quantitative",
+      "title": "Year",
+      "axis": {"format": "d", "tickCount": 10}
+    },
+    "y": {
+      "field": "Arrivals",
+      "type": "quantitative",
+      "title": "Number of Arrivals",
+      "axis": {"format": ","},
+      "stack": "zero"
+    },
+    "color": {
+      "field": "Visa Type",
+      "type": "nominal",
+      "title": "Visa Type"
+    },
+    "tooltip": [
+      {"field": "Visa Type", "title": "Visa Type"},
+      {"field": "Year", "type": "quantitative", "title": "Year", "format": "d"},
+      {"field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": ","}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "background": "#f7fbff"
+  }
+}
