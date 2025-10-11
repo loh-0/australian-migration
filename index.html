@@ -34,7 +34,11 @@
   <div class="page">
 
     <h1>Global Migration</h1>
-    <p class="intro">RIGHT INTRO HERE — one or two lines that say what the page explores and why it matters.</p>
+    <p class="intro">
+      Australia’s migration patterns shape our economy, universities, and cities. 
+      This page shows where people come from, how flows change over time, 
+      and which visa types drive the shifts.
+    </p>
 
     <div class="subsection">
       <div class="pure-g">
@@ -46,13 +50,23 @@
       <div class="pure-g">
         <div class="pure-u-1-2">
           <div class="description-left">
-            <p>LEFT PARAGRAPH — set the scene. RIGHT STUFF ABOUT GRAPH HERE describing what users can learn on this page in simple terms.</p>
-            <p>TIP OR INSIGHT BLOCK — add one practical takeaway for the reader.</p>
+            <p>Australia’s migration story has changed dramatically over the past two decades. 
+            This dashboard explores three key questions: 
+            <strong>Where do migrants come from?</strong> 
+            <strong>How have migration levels changed over time?</strong> 
+            <strong>What types of visas drive these flows?</strong>
+            </p>
+            <p>Tip: Use the sliders and hover to reveal exact values. 
+            When comparing countries, the bar chart is best for rankings 
+            while the map is best for geography.</p>
           </div>
         </div>
         <div class="pure-u-1-2">
           <div class="description-right">
-            <p>RIGHT PARAGRAPH — briefly note the dataset, time range, units or any definitions needed to interpret the visuals.</p>
+            <p>Data comes from the Australian Bureau of Statistics time series, financial years 2004 to 2023. 
+            Counts represent the number of people migrating. 
+            Some categories were grouped for clarity. 
+            Negative values appear when more people leave than arrive.</p>
           </div>
         </div>
       </div>
@@ -75,12 +89,18 @@
       <div class="pure-g">
         <div class="pure-u-1-2">
           <div class="description-left">
-            <p>LEFT EXPLANATION — what the map encodes, how to read colours, any filters or interactions. RIGHT STUFF ABOUT GRAPH HERE.</p>
+            <p>This interactive world map shows the number of migrants coming to Australia 
+            from each country. Darker colours represent larger numbers. 
+            Use the year slider to see how origins shift over time. 
+            Hover over a country to see exact values.</p>
           </div>
         </div>
         <div class="pure-u-1-2">
           <div class="description-right">
-            <p>KEY TAKEAWAYS — list two or three observations a reader should notice from the map.</p>
+            <p><strong>Key observations:</strong><br>
+            1. New Zealand and the United Kingdom remain consistent major sources.<br>
+            2. India and China rise strongly after 2010.<br>
+            3. COVID-19 leads to a sharp decline across most countries in 2020–21.</p>
           </div>
         </div>
       </div>
@@ -97,22 +117,30 @@
         <div class="pure-u-1-1">
           <p class="chartTitle">Timeline Of Migration</p>
           <div id="migration-timeline" class="vis-container"></div>
-          <p style="text-align:center; font-size:12px; margin-top:6px"><b>INSTRUCTION</b> — write how to interact: drag to zoom, click legend to filter, etc.</p>
+          <p style="text-align:center; font-size:12px; margin-top:6px">
+            <b>How to interact:</b> Drag the slider to focus on a specific year. 
+            Points and labels show values for that year. 
+            Click a legend item (if available) to highlight that series.
+          </p>
         </div>
       </div>
 
-        <div class="pure-g">
-          <div class="pure-u-1-2">
-            <div class="description-left">
-              <p>LEFT INSIGHT — highlight peaks, dips, or events tied to policy or conflicts. RIGHT STUFF ABOUT GRAPH HERE.</p>
-            </div>
-          </div>
-          <div class="pure-u-1-2">
-            <div class="description-right">
-              <p>GOOD PRACTICE — remind the reader about scale, per-capita vs absolute counts, or rolling averages if used.</p>
-            </div>
+      <div class="pure-g">
+        <div class="pure-u-1-2">
+          <div class="description-left">
+            <p>Net migration peaks in the late 2000s, dips slightly, then collapses during 2020–21 
+            when borders closed. A strong rebound occurs in 2022–23. 
+            Australian-born migration is often negative because more Australians leave than return.</p>
           </div>
         </div>
+        <div class="pure-u-1-2">
+          <div class="description-right">
+            <p>Net migration = Arrivals − Departures. 
+            Compare patterns rather than isolated spikes. 
+            These are absolute counts, not per-capita values.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="subsection">
@@ -132,12 +160,18 @@
       <div class="pure-g">
         <div class="pure-u-1-2">
           <div class="description-left">
-            <p>LEFT SUMMARY — define the categories used in this chart. RIGHT STUFF ABOUT GRAPH HERE.</p>
+            <p>This chart breaks migration into visa types. 
+            Skilled visas include both permanent workers and temporary skilled placements. 
+            Student visas cover higher education and vocational training. 
+            Humanitarian visas reflect protection and refugee programs. 
+            Other categories include working holiday, visitors, and miscellaneous temporary visas.</p>
           </div>
         </div>
         <div class="pure-u-1-2">
           <div class="description-right">
-            <p>INTERPRETATION TIPS — note common misreads, for example share vs count, stacked order, or legend scope.</p>
+            <p>A stacked area chart shows both total volume and the share each visa type contributes. 
+            Large swings around 2020 reflect policy changes and border closures rather than long-term trends. 
+            If you want to compare proportions instead of totals, a normalised (percent) view is useful.</p>
           </div>
         </div>
       </div>
@@ -155,6 +189,10 @@
         <div class="pure-u-1-1">
           <p class="chartTitle">Top 10 Migrant Source Countries by Year</p>
           <div id="migration-countrychart" class="vis-container"></div>
+          <p style="text-align:center; font-size:12px; margin-top:6px">
+            Move the slider to see how the top countries change over time. 
+            This bar chart highlights ranking and magnitude better than a map.
+          </p>
         </div>
       </div>
     </div>
@@ -169,12 +207,16 @@
       <div class="pure-g">
         <div class="pure-u-1-2">
           <div class="description-left">
-            <p>LEFT WRAP-UP — one sentence on the overall pattern and why it matters.</p>
+            <p>Australia’s migration is shaped by policy, global events, and labour demand. 
+            Despite temporary declines like during COVID-19, long-term growth in student and skilled migration 
+            has reshaped the country’s demographic profile.</p>
           </div>
         </div>
         <div class="pure-u-1-2">
           <div class="description-right">
-            <p>RIGHT NEXT STEPS — point to questions to explore or limitations of the data.</p>
+            <p>Next questions to explore include how states differ, 
+            which industries benefit most, and how policy settings influence visa composition. 
+            Limitations: grouped categories and financial-year timing may hide smaller monthly shifts.</p>
           </div>
         </div>
       </div>
