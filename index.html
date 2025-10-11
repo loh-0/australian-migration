@@ -101,18 +101,18 @@
         </div>
       </div>
 
-      <div class="pure-g">
-        <div class="pure-u-1-2">
-          <div class="description-left">
-            <p>LEFT INSIGHT — highlight peaks, dips, or events tied to policy or conflicts. RIGHT STUFF ABOUT GRAPH HERE.</p>
+        <div class="pure-g">
+          <div class="pure-u-1-2">
+            <div class="description-left">
+              <p>LEFT INSIGHT — highlight peaks, dips, or events tied to policy or conflicts. RIGHT STUFF ABOUT GRAPH HERE.</p>
+            </div>
+          </div>
+          <div class="pure-u-1-2">
+            <div class="description-right">
+              <p>GOOD PRACTICE — remind the reader about scale, per-capita vs absolute counts, or rolling averages if used.</p>
+            </div>
           </div>
         </div>
-        <div class="pure-u-1-2">
-          <div class="description-right">
-            <p>GOOD PRACTICE — remind the reader about scale, per-capita vs absolute counts, or rolling averages if used.</p>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="subsection">
@@ -139,6 +139,22 @@
           <div class="description-right">
             <p>INTERPRETATION TIPS — note common misreads, for example share vs count, stacked order, or legend scope.</p>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- New section: Top countries -->
+    <div class="subsection">
+      <div class="pure-g">
+        <div class="pure-u-1-1 subtitle">
+          <h2>Top Migrant Source Countries</h2>
+        </div>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <p class="chartTitle">Top 10 Migrant Source Countries by Year</p>
+          <div id="migration-countrychart" class="vis-container"></div>
         </div>
       </div>
     </div>
@@ -171,10 +187,12 @@
     const MAP_SPEC = "migrationmap.json";
     const TIMELINE_SPEC = "migrationovertimeline.json";
     const TYPE_SPEC = "migrationtypechart.json";
+    const COUNTRY_SPEC = "countrychart.json";
 
     vegaEmbed("#migration-map", MAP_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-timeline", TIMELINE_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-type", TYPE_SPEC, { actions: false }).catch(console.error);
+    vegaEmbed("#migration-countrychart", COUNTRY_SPEC, { actions: false }).catch(console.error);
   </script>
 </body>
 </html>
