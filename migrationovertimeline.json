@@ -4,7 +4,7 @@
   "height": 420,
   "title": {"text": "Australia: Arrivals, Departures, Net Overseas Migration", "fontWeight": "bold"},
   "data": {
-    "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/net_flow_migration.csv"
+    "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"
   },
 
   "params": [
