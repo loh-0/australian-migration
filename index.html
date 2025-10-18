@@ -98,9 +98,9 @@
         <div class="pure-u-1-2">
           <div class="description-right">
             <p><strong>Key observations:</strong><br>
-            1. placehoder.<br>
-            2. placehoder.<br>
-            3. placehoder.</p>
+            1. placeholder.<br>
+            2. placeholder.<br>
+            3. placeholder.</p>
           </div>
         </div>
       </div>
@@ -197,6 +197,44 @@
       </div>
     </div>
 
+    <!-- New section: State Migration -->
+    <div class="subsection">
+      <div class="pure-g">
+        <div class="pure-u-1-1 subtitle">
+          <h2>State Migration</h2>
+        </div>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <p class="chartTitle">Migration Between Australian States</p>
+          <div id="state-migration" class="vis-container"></div>
+          <p style="text-align:center; font-size:12px; margin-top:6px">
+            This map visualises internal migration across Australian states and territories.
+            Darker shades represent higher migration inflows. Use hover or filters to explore movement patterns.
+          </p>
+        </div>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1-2">
+          <div class="description-left">
+            <p>This visual focuses on internal mobility within Australia —
+            showing where residents are moving between states. It helps identify
+            population shifts driven by economic, lifestyle, or housing factors.</p>
+          </div>
+        </div>
+        <div class="pure-u-1-2">
+          <div class="description-right">
+            <p><strong>Key insights to note:</strong><br>
+            1. placeholder.<br>
+            2. placeholder.<br>
+            3. placeholder.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="subsection">
       <div class="pure-g">
         <div class="pure-u-1-1 subtitle">
@@ -230,11 +268,13 @@
     const TIMELINE_SPEC = "migrationovertimeline.json";
     const TYPE_SPEC = "migrationtypechart.json";
     const COUNTRY_SPEC = "countrychart.json";
+    const STATE_SPEC = "statemigration.json";
 
     vegaEmbed("#migration-map", MAP_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-timeline", TIMELINE_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-type", TYPE_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-countrychart", COUNTRY_SPEC, { actions: false }).catch(console.error);
+    vegaEmbed("#state-migration", STATE_SPEC, { actions: false }).catch(console.error);
   </script>
 </body>
 </html>
