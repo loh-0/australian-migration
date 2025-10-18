@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 900,
+  "height": 540,
+  "title": {
+    "text": "Net Overseas Migration by State/Territory (2004–2023)",
+    "fontWeight": "bold"
+  },
+  "projection": {
+    "type": "mercator"
+  },
+  "params": [
+    {
+      "name": "yr",
+      "value": 2023,
+      "bind": {
+        "input": "range",
+        "min": 2004,
+        "max": 2023,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/australiamap.topojson",
+        "format": {"type": "topojson", "feature": "australiamap"}
+      },
+      "mark": {"type": "geoshape", "fill": "#eef3f7", "stroke": "#cfd8df"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/migration_states.csv",
+        "format": {"type": "csv", "parse": {"Year": "number", "NetMigration": "number"}}
+      },
+      "transform": [
+        {"filter": "datum.Year == yr"},
+        {
+          "lookup": "State",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/australiamap.topojson",
+              "format": {"type": "topojson", "feature": "australiamap"}
+            },
+            "key": "properties.STE_NAME21",
+            "fields": ["properties", "geometry"]
+          },
+          "as": ["map_props", "geo"]
+        },
+        {"filter": "isValid(datum.geo)"}
+      ],
+      "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.7},
+      "encoding": {
+        "shape": {"field": "geo", "type": "geojson"},
+        "color": {
+          "field": "NetMigration",
+          "type": "quantitative",
+          "title": "Net migrants",
+          "scale": {"scheme": "redblue", "domainMid": 0},
+          "legend": {"format": ",d"}
+        },
+        "tooltip": [
+          {"field": "State", "title": "State"},
+          {"field": "NetMigration", "title": "Net migrants", "format": ",d"},
+          {"field": "Year", "title": "Year"}
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": "#f7fbff",
+    "view": {"stroke": null},
+    "legend": {"labelLimit": 140, "titleFontWeight": "bold"}
+  }
+}
