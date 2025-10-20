@@ -36,7 +36,7 @@
       "lookup": "STE_NAME21",
       "from": {
         "data": {
-          "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/mapaustralia.topojson",
+          "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/australianmap.topojson",
           "format": { "type": "topojson", "feature": "australiamap" }
         },
         "key": "properties.STE_NAME21"
