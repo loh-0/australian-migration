@@ -1,0 +1,57 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 400,
+  "title": {
+    "text": "Population by Age, Gender, and Year",
+    "fontWeight": "bold",
+    "fontSize": 18
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/agemigration.csv",
+    "format": {"type": "csv"}
+  },
+  "params": [
+    {
+      "name": "year_select",
+      "value": 2018,
+      "bind": {
+        "input": "select",
+        "options": [2018, 2022, 2023],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.year == year_select"},
+    {
+      "fold": ["males", "females"],
+      "as": ["gender", "population"]
+    }
+  ],
+  "mark": {"type": "line", "point": true},
+  "encoding": {
+    "x": {
+      "field": "Age",
+      "type": "quantitative",
+      "title": "Age"
+    },
+    "y": {
+      "field": "population",
+      "type": "quantitative",
+      "title": "Population"
+    },
+    "color": {
+      "field": "gender",
+      "type": "nominal",
+      "title": "Gender",
+      "scale": {"range": ["#1f77b4", "#ff7f0e"]}
+    },
+    "tooltip": [
+      {"field": "Age", "type": "quantitative"},
+      {"field": "gender", "type": "nominal"},
+      {"field": "population", "type": "quantitative"},
+      {"field": "year", "type": "nominal"}
+    ]
+  }
+}
