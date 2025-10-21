@@ -68,6 +68,16 @@
     "background": "#f7fbff",
     "view": {
       "stroke": null
+    },
+    "title": {
+      "font": "Inter, sans-serif"
+    },
+    "legend": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    },
+    "text": {
+      "font": "Inter, sans-serif"
     }
   }
 }

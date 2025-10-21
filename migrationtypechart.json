@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1100,
-  "height": 600,
+  "width": "container",
+  "height": 500,
   "title": "Visa Arrivals by Type (2004–2023)",
   "layer": [
     {
@@ -44,7 +44,7 @@
           "type": "quantitative",
           "title": "Year",
           "axis": {"format": "d", "tickCount": 10},
-          "scale": {"domain": [2004, 2023]}
+          "scale": {"domain": [2004, 2022.5]}
         },
         "y": {
           "field": "Arrivals",
@@ -123,7 +123,33 @@
         "dy": 0,
         "fontSize": 14,
         "color": "#000000",
-        "lineHeight": 16
+        "fontWeight": 600,
+        "lineHeight": 16,
+        "font": "Inter, sans-serif"
+      },
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "text", "type": "nominal"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"x": 2019, "y": 950000, "text": ["Post-2021: Students, visitors, and", "working holiday visas surged,", "while family migration remained flat"]}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "dx": 0,
+        "dy": 0,
+        "fontSize": 14,
+        "color": "#000000",
+        "fontWeight": 600,
+        "lineHeight": 16,
+        "font": "Inter, sans-serif"
       },
       "encoding": {
         "x": {"field": "x", "type": "quantitative"},
@@ -137,14 +163,19 @@
     "background": "#f7fbff",
     "axis": {
       "labelFontSize": 14,
-      "titleFontSize": 16
+      "titleFontSize": 16,
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
     },
     "legend": {
       "labelFontSize": 14,
-      "titleFontSize": 15
+      "titleFontSize": 15,
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
     },
     "title": {
-      "fontSize": 18
+      "fontSize": 18,
+      "font": "Inter, sans-serif"
     }
   }
 }

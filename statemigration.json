@@ -77,6 +77,17 @@
 
   "config": {
     "background": "#f7fbff",
-    "view": { "stroke": null }
+    "view": { "stroke": null },
+    "title": {
+      "font": "Inter, sans-serif"
+    },
+    "legend": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    },
+    "axis": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    }
   }
 }

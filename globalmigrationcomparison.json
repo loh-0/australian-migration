@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Net Change in Migration: Australia vs Global Peers (2004-2023)",
+    "fontSize": 18,
+    "font": "Inter, sans-serif",
+    "fontWeight": 600,
+    "color": "#1A3D7C"
+  },
+  "width": 700,
+  "height": 450,
+  "data": {
+    "url": "data/migrationranking_top.csv"
+  },
+  "transform": [
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "NetChangeinMigration", "order": "descending"}]
+    },
+    {
+      "calculate": "datum.Name === 'Australia' ? 'Australia' : (datum.NetChangeinMigration > 0 ? 'Net Inflow' : 'Net Outflow')",
+      "as": "highlight"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cursor": "pointer"
+  },
+  "encoding": {
+    "y": {
+      "field": "Name",
+      "type": "nominal",
+      "sort": {
+        "field": "NetChangeinMigration",
+        "order": "descending"
+      },
+      "axis": {
+        "title": null,
+        "labelFontSize": 13,
+        "labelFont": "Inter, sans-serif",
+        "labelLimit": 200
+      }
+    },
+    "x": {
+      "field": "NetChangeinMigration",
+      "type": "quantitative",
+      "axis": {
+        "title": "Net Change in Migration (persons)",
+        "format": ",.0f",
+        "titleFontSize": 13,
+        "labelFontSize": 12,
+        "grid": true,
+        "gridOpacity": 0.3
+      }
+    },
+    "color": {
+      "field": "highlight",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Australia", "Net Inflow", "Net Outflow"],
+        "range": ["#D32F2F", "#1A3D7C", "#7986CB"]
+      },
+      "legend": {
+        "title": "Migration Direction",
+        "orient": "top",
+        "titleFontSize": 12,
+        "labelFontSize": 11
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Name",
+        "type": "nominal",
+        "title": "Country"
+      },
+      {
+        "field": "NetChangeinMigration",
+        "type": "quantitative",
+        "title": "Net Change in Migration",
+        "format": ",.0f"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    },
+    "title": {
+      "font": "Inter, sans-serif"
+    },
+    "legend": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    }
+  }
+}

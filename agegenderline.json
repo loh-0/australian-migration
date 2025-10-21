@@ -77,6 +77,18 @@
   "config": {
     "view": {"stroke": null},
     "background": "#f7fbff",
-    "axis": {"grid": true, "gridOpacity": 0.15}
+    "axis": {
+      "grid": true,
+      "gridOpacity": 0.15,
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    },
+    "title": {
+      "font": "Inter, sans-serif"
+    },
+    "legend": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    }
   }
 }

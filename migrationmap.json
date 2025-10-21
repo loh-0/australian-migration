@@ -82,6 +82,18 @@
   "config": {
     "background": "#f7fbff",
     "view": { "stroke": null },
-    "legend": { "labelLimit": 140, "titleFontWeight": "bold" }
+    "legend": {
+      "labelLimit": 140,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    },
+    "title": {
+      "font": "Inter, sans-serif"
+    },
+    "axis": {
+      "labelFont": "Inter, sans-serif",
+      "titleFont": "Inter, sans-serif"
+    }
   }
 }

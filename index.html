@@ -130,7 +130,7 @@
       width: 100%;
     }
 
-    /* Visualization Containers */
+    /* Visualisation Containers */
     .vis-container { 
       background: #fafbfc;
       border-radius: 8px;
@@ -306,7 +306,7 @@
         <div class="pure-u-1-1">
           <p class="chartTitle">Net Overseas Migration Trends (2004–2023)</p>
           <div id="migration-timeline" class="vis-container" role="img" aria-label="Line chart showing Australian migration trends over time"></div>
-          <p class="interaction-hint">💡 Drag the slider to focus on specific years • Click legend items to highlight individual series</p>
+          <p class="interaction-hint">💡 Hover over any point to see detailed migration data • Click legend items to highlight individual series</p>
         </div>
       </div>
 
@@ -391,6 +391,7 @@
           <div class="description-left">
             <p>Australia draws migrants from across the globe, with Asia emerging as the dominant source region. The interactive map reveals geographic patterns — darker colours indicate higher migration volumes.</p>
             <p>Use the slider to track shifts over time. You'll notice that traditional source countries like the UK remain important, but Asian countries — particularly India and China — have grown dramatically since 2004.</p>
+            <p style="margin-top: 15px;"><strong>Map legend:</strong> <em>White countries</em> have no migration data available. <em>Grey countries</em> represent migration flows under 5,000 people — they appear grey due to the large scale differences between major source countries. Per-capita normalisation could reveal migration patterns from smaller countries more clearly.</p>
           </div>
         </div>
         <div class="pure-u-1 pure-u-md-1-2">
@@ -427,7 +428,7 @@
         <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
             <p>This ranked view highlights which countries send the most migrants to Australia each year. Unlike the map, which emphasizes geography, this chart focuses on <strong>magnitude and ranking</strong>.</p>
-            <p>Watch how the composition shifts: in 2004, China, New Zealand, and India dominated. By 2023, India leads by a significant margin (over 75,000 migrants), followed by China, the Philippines, and New Zealand.</p>
+            <p>Watch how the composition shifts: in 2004, China, New Zealand, and India dominated. By 2023, India leads by a significant margin (almost 75,000 migrants), followed by China, the Philippines, and New Zealand.</p>
           </div>
         </div>
         <div class="pure-u-1 pure-u-md-1-2">
@@ -540,7 +541,7 @@
       <div class="pure-g">
         <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
-            <p>This final visualization shows the <strong>cumulative result</strong> of decades of migration policy. This snapshot of Australia's <strong>resident population by country of birth</strong> as of 2024 captures how migration has transformed the nation.</p>
+            <p>This visualisation shows the <strong>cumulative result</strong> of decades of migration policy. This snapshot of Australia's <strong>resident population by country of birth</strong> as of 2024 captures how migration has transformed the nation.</p>
             <p>While Australian-born residents still form the majority, the overseas-born share has grown substantially. The UK remains the largest single overseas birthplace, but Asian countries now collectively represent a major proportion of the population.</p>
           </div>
         </div>
@@ -560,7 +561,46 @@
       </div>
     </section>
 
-    <!-- Section 8: Summary & Key Insights -->    <!-- Section 6: Australian-born vs Overseas-born Population -->
+    <!-- Section 8: Global Migration Comparison -->
+    <section class="subsection" aria-labelledby="section8-heading">
+      <div class="section-header">
+        <span class="section-icon">🌍</span>
+        <h2 id="section8-heading">Global Context: Australia in Perspective</h2>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <p class="chartTitle">How Australia Compares: Net Migration Change Globally (2004–2023)</p>
+          <div id="global-comparison" class="vis-container" role="img" aria-label="Bar chart comparing Australia's net migration change with other countries"></div>
+          <p class="interaction-hint">💡 Australia is highlighted in red • Hover over any bar to see exact figures</p>
+        </div>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-left">
+            <p>While we've explored Australia's migration patterns in detail, it's essential to understand how the country compares globally. This chart shows <strong>net change in migration</strong> for selected countries, revealing both the world's largest migration gainers and losers over this 20-year period.</p>
+            <p>Australia, with a net gain of approximately 138,510 people, sits in the middle, a modest positive intake compared to major destination countries, yet significant relative to Australia's population of 26 million. The chart also reveals countries experiencing large-scale emigration (negative values).</p>
+          </div>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-right">
+            <div class="key-insight">
+              <strong>Global comparison insights:</strong>
+              <ul class="insight-list">
+                <li><strong>United States leads migration gains:</strong> With over 1.28 million net increase, the US remains the world's largest migration destination</li>
+                <li><strong>Conflict-driven patterns:</strong> Ukraine and Syria show high net gains due to return migration and refugee resettlement following displacement crises</li>
+                <li><strong>Traditional destinations:</strong> UK and Canada round out the top 5 destination countries alongside the US</li>
+                <li><strong>Major emigration sources:</strong> Pakistan, India, Sudan, Bangladesh, and Nepal show significant net outflows, driven by economic migration to wealthier countries</li>
+                <li><strong>Australia's position:</strong> As a mid-sized destination country, Australia's migration impact is substantial relative to its small population base</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 9: Summary & Key Insights -->    <!-- Section 6: Australian-born vs Overseas-born Population -->
    
 
     <!-- Section 7: Summary & Key Insights -->
@@ -603,15 +643,15 @@
     <p><strong>Data Sources:</strong></p>
     <ul style="list-style: none; padding: 0; margin: 10px 0;">
       <li>• Australian Bureau of Statistics (ABS) - <a href="https://www.abs.gov.au/statistics/people/population/overseas-migration" target="_blank" rel="noopener">Overseas Migration Statistics</a></li>
-      <li>• ABS - <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population" target="_blank" rel="noopener">Population by Country of Birth</a></li>
+      <li>• MacroTrends - <a href="https://www.macrotrends.net/global-metrics/countries/aus/australia/net-migration" target="_blank" rel="noopener">Australia Net Migration</a></li>
       <li>• Data repository: <a href="https://github.com/loh-0/australian-migration" target="_blank" rel="noopener">github.com/loh-0/australian-migration</a></li>
     </ul>
-    <p><strong>Visualization:</strong> Created with <a href="https://vega.github.io/vega-lite/" target="_blank" rel="noopener">Vega-Lite 5</a> and <a href="https://purecss.io/" target="_blank" rel="noopener">Pure CSS</a></p>
+    <p><strong>Visualisation:</strong> Created with <a href="https://vega.github.io/vega-lite/" target="_blank" rel="noopener">Vega-Lite 5</a> and <a href="https://purecss.io/" target="_blank" rel="noopener">Pure CSS</a></p>
     <p style="font-size: 0.85em; margin-top: 15px; opacity: 0.9;">This dashboard explores 20 years of Australian migration data, examining trends in arrivals, visa types, source countries, demographics, and settlement patterns.</p>
   </footer>  </div>
 
   <script>
-    // Vega-Lite specifications for all visualizations
+    // Vega-Lite specifications for all visualisations
     const MAP_SPEC = "migrationmap.json";
     const TIMELINE_SPEC = "migrationovertimeline.json";
     const TYPE_SPEC = "migrationtypechart.json";
@@ -619,15 +659,17 @@
     const STATE_SPEC = "statemigration.json";
     const PIE_SPEC = "piechart.json";
     const AGE_GENDER_SPEC = "agegenderline.json";
+    const GLOBAL_COMPARISON_SPEC = "globalmigrationcomparison.json";
 
-    // Embed all visualizations
-    vegaEmbed("#migration-map", MAP_SPEC, { actions: false }).catch(console.error);
-    vegaEmbed("#migration-timeline", TIMELINE_SPEC, { actions: false }).catch(console.error);
-    vegaEmbed("#migration-type", TYPE_SPEC, { actions: false }).catch(console.error);
-    vegaEmbed("#migration-countrychart", COUNTRY_SPEC, { actions: false }).catch(console.error);
-    vegaEmbed("#state-migration", STATE_SPEC, { actions: false }).catch(console.error);
-    vegaEmbed("#population-piechart", PIE_SPEC, { actions: false }).catch(console.error);
-    vegaEmbed("#age-gender-chart", AGE_GENDER_SPEC, { actions: false }).catch(console.error);
+    // Embed all visualisations with SVG renderer for sharper display
+    vegaEmbed("#migration-map", MAP_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#migration-timeline", TIMELINE_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#migration-type", TYPE_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#migration-countrychart", COUNTRY_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#state-migration", STATE_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#population-piechart", PIE_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#age-gender-chart", AGE_GENDER_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
+    vegaEmbed("#global-comparison", GLOBAL_COMPARISON_SPEC, { actions: false, renderer: "svg" }).catch(console.error);
   </script>
 </body>
 </html>
