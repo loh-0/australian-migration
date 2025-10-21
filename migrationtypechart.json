@@ -1,42 +1,150 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 450,
+  "width": 1100,
+  "height": 600,
   "title": "Visa Arrivals by Type (2004–2023)",
-  "data": {
-    "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/migration_visa.csv"
-  },
-  "mark": {
-    "type": "area",
-    "interpolate": "monotone"
-  },
-  "encoding": {
-    "x": {
-      "field": "Year",
-      "type": "quantitative",
-      "title": "Year",
-      "axis": {"format": "d", "tickCount": 10}
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/migration_visa.csv"
+      },
+      "transform": [
+        {"filter": "datum.Year <= 2023"}
+      ],
+      "params": [
+        {
+          "name": "visa_select",
+          "select": {
+            "type": "point",
+            "fields": ["Visa Type"],
+            "toggle": false,
+            "on": "click",
+            "clear": "dblclick"
+          },
+          "bind": "legend"
+        },
+        {
+          "name": "hover",
+          "select": {
+            "type": "point",
+            "fields": ["Visa Type"],
+            "on": "mouseover",
+            "clear": "mouseout"
+          }
+        }
+      ],
+      "mark": {
+        "type": "area",
+        "interpolate": "monotone",
+        "line": true
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "quantitative",
+          "title": "Year",
+          "axis": {"format": "d", "tickCount": 10},
+          "scale": {"domain": [2004, 2023]}
+        },
+        "y": {
+          "field": "Arrivals",
+          "type": "quantitative",
+          "title": "Number of Arrivals",
+          "axis": {"format": "~s", "labelExpr": "format(datum.value, ',.0f')"},
+          "stack": "zero"
+        },
+        "color": {
+          "field": "Visa Type",
+          "type": "nominal",
+          "title": "Visa Type",
+          "scale": {
+            "domain": [
+              "Family",
+              "Other (permanent)",
+              "Other (temporary)",
+              "Skilled (permanent)",
+              "Skilled (temporary)",
+              "Special eligibility & humanitarian",
+              "Student",
+              "Student - higher education",
+              "Student - other",
+              "Student - vocational education and training",
+              "Visitors",
+              "Working holiday"
+            ],
+            "range": [
+              "#08519c",
+              "#3182bd",
+              "#6baed6",
+              "#9ecae1",
+              "#c6dbef",
+              "#e31a1c",
+              "#1c4587",
+              "#2b5ea0",
+              "#4a89dc",
+              "#6fa8dc",
+              "#b10026",
+              "#fc4e2a"
+            ]
+          }
+        },
+        "opacity": {
+          "condition": [
+            {"param": "visa_select", "value": 1},
+            {"param": "hover", "value": 0.8}
+          ],
+          "value": 0.2
+        },
+        "strokeWidth": {
+          "condition": [
+            {"param": "hover", "value": 3},
+            {"param": "visa_select", "value": 2}
+          ],
+          "value": 0.5
+        },
+        "tooltip": [
+          {"field": "Visa Type", "title": "Visa Type"},
+          {"field": "Year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": ","}
+        ]
+      }
     },
-    "y": {
-      "field": "Arrivals",
-      "type": "quantitative",
-      "title": "Number of Arrivals",
-      "axis": {"format": ","},
-      "stack": "zero"
-    },
-    "color": {
-      "field": "Visa Type",
-      "type": "nominal",
-      "title": "Visa Type"
-    },
-    "tooltip": [
-      {"field": "Visa Type", "title": "Visa Type"},
-      {"field": "Year", "type": "quantitative", "title": "Year", "format": "d"},
-      {"field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": ","}
-    ]
-  },
+    {
+      "data": {
+        "values": [
+          {"x": 2017, "y": 740000, "text": ["Student visas have made up the", "largest share of visa arrivals since 2004."]}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "dx": 0,
+        "dy": 0,
+        "fontSize": 14,
+        "color": "#000000",
+        "lineHeight": 16
+      },
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "text", "type": "nominal"}
+      }
+    }
+  ],
   "config": {
     "view": {"stroke": null},
-    "background": "#f7fbff"
+    "background": "#f7fbff",
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 16
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 15
+    },
+    "title": {
+      "fontSize": 18
+    }
   }
 }

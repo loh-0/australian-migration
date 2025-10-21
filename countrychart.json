@@ -1,8 +1,13 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 420,
-  "title": {"text": "Top 10 Migrant Source Countries by Year", "fontWeight": "bold"},
+  "width": 1100,
+  "height": 450,
+  "title": {
+    "text": "Top 10 Migrant Source Countries by Year",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "anchor": "start"
+  },
   "data": {
     "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/migration.csv"
   },
@@ -27,24 +32,61 @@
     },
     {"filter": "datum.rank <= 10"}
   ],
-  "mark": "bar",
-  "encoding": {
-    "y": {"field": "country", "type": "nominal", "sort": "-x", "title": null},
-    "x": {
-      "field": "migrants",
-      "type": "quantitative",
-      "axis": {
-        "title": "Migrants",
-        "labelExpr": "format(datum.value, ',')",
-        "tickMinStep": 1000
-      },
-      "scale": {"zero": true, "nice": true}
+  "layer": [
+    {
+      "mark": {"type": "bar", "color": "#2c5aa0"},
+      "encoding": {
+        "y": {
+          "field": "country",
+          "type": "nominal",
+          "sort": "-x",
+          "title": null,
+          "axis": {"labelFontSize": 12, "labelLimit": 150}
+        },
+        "x": {
+          "field": "migrants",
+          "type": "quantitative",
+          "axis": {
+            "title": "Migrants",
+            "labelExpr": "format(datum.value, ',')",
+            "tickMinStep": 1000,
+            "labelFontSize": 12,
+            "titleFontSize": 14
+          },
+          "scale": {"zero": true, "nice": true}
+        },
+        "tooltip": [
+          {"field": "country", "title": "Country"},
+          {"field": "migrants", "type": "quantitative", "format": ",", "title": "Migrants"},
+          {"field": "rank", "type": "quantitative", "title": "Rank"}
+        ]
+      }
     },
-    "tooltip": [
-      {"field": "country", "title": "Country"},
-      {"field": "migrants", "type": "quantitative", "format": ",", "title": "Migrants"},
-      {"field": "rank", "type": "quantitative", "title": "Rank"}
-    ]
-  },
-  "config": {"view": {"stroke": null}}
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "fontSize": 11,
+        "fontWeight": 500
+      },
+      "encoding": {
+        "y": {
+          "field": "country",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "migrants",
+          "type": "quantitative"
+        },
+        "text": {"field": "migrants", "type": "quantitative", "format": ","}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "background": "#f7fbff",
+    "axis": {"grid": true, "gridOpacity": 0.15}
+  }
 }

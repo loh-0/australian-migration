@@ -2,7 +2,12 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 1100,
   "height": 420,
-  "title": {"text": "Australia: Arrivals, Departures, Net Overseas Migration", "fontWeight": "bold"},
+  "title": {
+    "text": "Australia: Arrivals, Departures, Net Overseas Migration",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "anchor": "start"
+  },
   "data": {
     "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"
   },
@@ -22,23 +27,44 @@
   ],
   "layer": [
     {
-      "mark": {"type": "line", "strokeWidth": 2},
+      "mark": {"type": "line", "strokeWidth": 3},
       "encoding": {
-        "x": {"field": "year", "type": "quantitative", "axis": {"format": "d", "title": "year", "tickMinStep": 1}},
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "axis": {
+            "format": "d",
+            "title": "Year",
+            "tickMinStep": 1,
+            "labelFontSize": 12,
+            "titleFontSize": 14
+          }
+        },
         "y": {
           "field": "value",
           "type": "quantitative",
-          "title": "people",
-          "axis": {"labelExpr": "format(datum.value, ',.0f')"},
+          "title": "People",
+          "axis": {
+            "labelExpr": "format(datum.value, ',.0f')",
+            "labelFontSize": 12,
+            "titleFontSize": 14
+          },
           "scale": {"nice": true, "domain": {"unionWith": [0]}}
         },
         "color": {
           "field": "Series",
           "scale": {
             "domain": ["Australian-born", "Overseas-born", "Total (net)"],
-            "range": ["#4c78a8", "#f58518", "#54a24b"]
+            "range": ["#2c5aa0", "#d9534f", "#5cb85c"]
           },
-          "legend": {"title": "Series", "orient": "top-left"}
+          "legend": {
+            "title": "Series",
+            "orient": "top-left",
+            "labelFontSize": 12,
+            "titleFontSize": 13,
+            "symbolSize": 150,
+            "offset": 10
+          }
         },
         "tooltip": [
           {"field": "Series"},
@@ -66,36 +92,46 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"
+        "values": [
+          {"year": 2009, "value": 300000, "text": "2009: GFC Impact", "subtext": "Migration declined sharply"},
+          {"year": 2019.3, "value": 150000, "text": "2020: COVID-19 Pandemic", "subtext": "Border closures caused historic drop"},
+          {"year": 2023, "value": 550000, "text": "2023: Record Recovery", "subtext": "Post-pandemic surge"}
+        ]
       },
-      "transform": [
-        {"filter": "datum.year == yrSel"},
-        {"calculate": "yrSel - 1", "as": "prevYear"},
-        {
-          "lookup": "prevYear",
-          "from": {
-            "data": {"url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/net_flow_migration.csv"},
-            "key": "year",
-            "fields": ["australian_born", "overseas_born", "total"]
-          },
-          "as": ["ab_prev", "ob_prev", "total_prev"]
-        },
-        {"calculate": "isValid(datum.total_prev) ? datum.total - datum.total_prev : null", "as": "total_change"},
-        {"calculate": "isValid(datum.total_prev) && datum.total_prev != 0 ? (datum.total - datum.total_prev) / abs(datum.total_prev) : null", "as": "total_chg_pct"},
-        {"calculate": "isValid(datum.total_change) ? (datum.total_change > 0 ? '▲' : (datum.total_change < 0 ? '▼' : '•')) : ''", "as": "chg_arrow"},
-        {"calculate": "datum.total != 0 ? datum.overseas_born / datum.total : null", "as": "ob_share"},
-        {"calculate": "datum.total != 0 ? datum.australian_born / datum.total : null", "as": "ab_share"},
-        {
-          "calculate": "'Total Migrations ' + format(datum.total, ',') + (isValid(datum.total_chg_pct) ? ' ' + datum.chg_arrow + ' ' + format(datum.total_chg_pct, '.0%') + ' vs ' + (yrSel - 1) : '') + ';Overseas-born ' + format(datum.overseas_born, ',') + (datum.total != 0 ? ' (' + format(datum.ob_share, '.0%') + ' of net)' : '') + ', Australian-born ' + format(datum.australian_born, ',') + (datum.total != 0 ? ' (' + format(datum.ab_share, '.0%') + ')' : '')",
-          "as": "text_annotation_raw"
-        },
-        {"calculate": "split(datum.text_annotation_raw, ';')", "as": "text_annotation"}
-      ],
-      "mark": {"type": "text", "dy": -12, "fontSize": 11, "align": "center", "fill": "black"},
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "align": "center",
+        "dy": -25
+      },
       "encoding": {
         "x": {"field": "year", "type": "quantitative"},
-        "y": {"field": "total", "type": "quantitative"},
-        "text": {"field": "text_annotation"}
+        "y": {"field": "value", "type": "quantitative"},
+        "text": {"field": "text"},
+        "color": {"value": "#333"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"year": 2009, "value": 300000, "subtext": "Migration declined sharply"},
+          {"year": 2019.3, "value": 150000, "subtext": "Border closures caused historic drop"},
+          {"year": 2023, "value": 550000, "subtext": "Post-pandemic surge"}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "align": "center",
+        "dy": -10,
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "value", "type": "quantitative"},
+        "text": {"field": "subtext"},
+        "color": {"value": "#666"}
       }
     }
   ],

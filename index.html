@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Global Migration — Interactive Visualisations</title>
+  <title>Australian Migration Dashboard (2004–2023)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Interactive dashboard exploring Australian migration trends, source countries, visa types, and demographic patterns from 2004 to 2023." />
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
-  <link rel="stylesheet" href="style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
@@ -15,266 +15,619 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    .page { max-width: 1100px; margin: 0 auto; padding: 18px; }
-    h1 { font-family: "Allerta Stencil", system-ui; letter-spacing: .5px; margin: 10px 0 0; text-align:center; }
-    h2 { margin: 30px 0 10px; }
-    .subtitle h2 { border-bottom: 2px solid #eee; padding-bottom: 6px; }
-    .chartTitle { font-weight: 700; margin: 8px 0 6px; }
-    .vis-container, .vis-container-left, .vis-container-right { background: #fff; }
-    .description-left, .description-right { line-height: 1.45; }
-    .intro { text-align:center; margin-top: 6px; opacity:.85; }
+    * { box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+      color: #2c3e50;
+      line-height: 1.6;
+    }
+
+    /* Header Banner */
+    .header-banner {
+      background: linear-gradient(135deg, #1A3D7C 0%, #2c5aa0 100%);
+      color: white;
+      padding: 50px 20px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><path d="M0 200 Q 300 150 600 200 T 1200 200 L 1200 400 L 0 400 Z" fill="rgba(255,255,255,0.03)"/></svg>');
+      background-size: cover;
+      opacity: 0.5;
+    }
+
+    .header-banner h1 {
+      font-size: 2.8em;
+      font-weight: 700;
+      margin: 0 0 10px;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-banner .subtitle {
+      font-size: 1.15em;
+      font-weight: 400;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .flag-icon {
+      font-size: 1.3em;
+      margin-right: 8px;
+    }
+
+    /* Main Container */
+    .page { 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 0 20px 40px;
+      background: #f5f7fa;
+    }
+
+    /* Section Styling */
+    .subsection {
+      background: white;
+      border-radius: 12px;
+      padding: 35px;
+      margin: 30px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .subsection:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #1A3D7C;
+    }
+
+    .section-icon {
+      font-size: 1.8em;
+      margin-right: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 1.9em;
+      font-weight: 700;
+      color: #1A3D7C;
+      margin: 0;
+      letter-spacing: -0.3px;
+    }
+
+    /* Chart Titles */
+    .chartTitle { 
+      font-weight: 600;
+      font-size: 1.2em;
+      margin: 20px 0 15px;
+      color: #2c3e50;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Visualization Containers */
+    .vis-container { 
+      background: #fafbfc;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px auto;
+      border: 1px solid #e1e8ed;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: visible;
+    }
+    /* Vega Embed Responsive Fix */
+    .vega-embed {
+      margin: 0 auto;
+    }
+    .vega-embed .vega-actions {
+      display: none !important;
+    }
+
+    /* Description Text */
+    .description-left, .description-right { 
+      line-height: 1.7;
+      font-size: 1.02em;
+      padding: 0 15px;
+    }
+
+    .description-left p, .description-right p {
+      margin: 12px 0;
+    }
+
+    /* Intro Section */
+    .intro-section {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 12px;
+      padding: 35px;
+      margin: -15px 0 30px;
+      border-left: 5px solid #D32F2F;
+    }
+
+    .intro-section h3 {
+      color: #1A3D7C;
+      font-size: 1.5em;
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    /* Highlights & Key Points */
+    .key-insight {
+      background: #fff8e1;
+      border-left: 4px solid #ffc107;
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 4px;
+      font-size: 0.98em;
+    }
+
+    .key-insight strong {
+      color: #1A3D7C;
+    }
+
+    /* Interactive Instructions */
+    .interaction-hint {
+      text-align: center;
+      font-size: 0.9em;
+      color: #546e7a;
+      margin: 12px 0 5px;
+      font-style: italic;
+      background: #eceff1;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    /* Footer */
+    footer {
+      background: #1A3D7C;
+      color: white;
+      text-align: center;
+      padding: 25px 20px;
+      margin-top: 40px;
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: #64b5f6;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-banner h1 {
+        font-size: 2em;
+      }
+      .header-banner .subtitle {
+        font-size: 1em;
+      }
+      .subsection {
+        padding: 25px 8px;
+      }
+      .section-header h2 {
+        font-size: 1.5em;
+      }
+      .description-left, .description-right {
+        padding: 0 5px;
+      }
+      .vis-container {
+        padding: 8px;
+      }
+      .vis-container .vega-embed {
+        max-width: 100vw;
+      }
+    }
+
+    /* List Styling */
+    ul.insight-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.insight-list li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    ul.insight-list li::before {
+      content: "▸";
+      color: #D32F2F;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    strong {
+      color: #1A3D7C;
+    }
   </style>
 </head>
 
 <body>
-  <div class="page">
+  <!-- Header Banner -->
+  <header class="header-banner" role="banner">
+    <h1><span class="flag-icon">🇦🇺</span> Australian Migration Dashboard</h1>
+    <p class="subtitle">Exploring migration trends, origins, and demographics across Australia (2004–2023)</p>
+  </header>
 
-    <h1>Global Migration</h1>
-    <p class="intro">
-      Australia’s migration patterns shape our economy, universities, and cities. 
-      This page shows where people come from, how flows change over time, 
-      and which visa types drive the shifts.
-    </p>
+    <main class="page" role="main">
 
-    <div class="subsection">
-      <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>Overview</h2>
-        </div>
-      </div>
-
-      <div class="pure-g">
-        <div class="pure-u-1-2">
-          <div class="description-left">
-            <p>Australia’s migration story has changed dramatically over the past two decades. 
-            This dashboard explores three key questions: 
-            <strong>Where do migrants come from?</strong> 
-            <strong>How have migration levels changed over time?</strong> 
-            <strong>What types of visas drive these flows?</strong>
-            </p>
-            <p>Tip: Use the sliders and hover to reveal exact values. 
-            When comparing countries, the bar chart is best for rankings 
-            while the map is best for geography.</p>
-          </div>
-        </div>
-        <div class="pure-u-1-2">
-          <div class="description-right">
-            <p>Data comes from the Australian Bureau of Statistics time series, financial years 2004 to 2023. 
-            Counts represent the number of people migrating. 
-            Some categories were grouped for clarity. 
-            Negative values appear when more people leave than arrive.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="subsection">
-      <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>Where Migrants Go</h2>
-        </div>
+    <!-- Introduction Section -->
+    <!-- Introduction Section -->
+    <section class="intro-section" aria-labelledby="intro-heading">
+      <h3 id="intro-heading">Understanding Australian Migration</h3>
+      <p>This interactive dashboard examines <strong>two decades of migration data</strong> (2004–2023), revealing how Australia's intake has evolved through economic cycles, policy changes, and the COVID-19 pandemic.</p>
+      <p><strong>Key concepts:</strong></p>
+      <ul style="line-height: 1.8;">
+        <li><strong>Net Overseas Migration (NOM):</strong> The difference between people arriving to live in Australia (immigrants) and people departing to live overseas (emigrants). A positive number means more arrivals than departures.</li>
+        <li><strong>Visa types:</strong> Australian migration is categorized by visa purpose - Skilled (work-based), Family (reunification), Student (education), Humanitarian (refugees), and Visitor/Working Holiday (temporary).</li>
+        <li><strong>Australian-born vs Overseas-born:</strong> Refers to whether a migrant is an Australian citizen returning from abroad, or someone born in another country moving to Australia.</li>
+        <li><strong>GFC (Global Financial Crisis):</strong> The 2008-2009 worldwide economic recession that impacted migration patterns.</li>
+      </ul>
+      <p style="margin-top: 15px;">Use the interactive sliders and click on legends to explore specific years, visa types, and countries. Hover over any chart element to see detailed data.</p>
+    </section>    <!-- Section 1: Migration Over Time (THE BIG PICTURE) -->
+    <section class="subsection" aria-labelledby="section1-heading">
+      <div class="section-header">
+        <span class="section-icon">📈</span>
+        <h2 id="section1-heading">The Big Picture: Migration Over Time</h2>
       </div>
 
       <div class="pure-g">
         <div class="pure-u-1-1">
-          <p class="chartTitle">Migration Map</p>
-          <div id="migration-map" class="vis-container"></div>
+          <p class="chartTitle">Net Overseas Migration Trends (2004–2023)</p>
+          <div id="migration-timeline" class="vis-container" role="img" aria-label="Line chart showing Australian migration trends over time"></div>
+          <p class="interaction-hint">💡 Drag the slider to focus on specific years • Click legend items to highlight individual series</p>
         </div>
       </div>
 
       <div class="pure-g">
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
-            <p>This interactive world map shows the number of migrants coming to Australia 
-            from each country. Darker colours represent larger numbers. 
-            Use the year slider to see how origins shift over time. 
-            Hover over a country to see exact values.</p>
+            <p>Let's start with the overall trend. This timeline reveals the <strong>volatility and resilience</strong> of Australia's migration system over two decades. Net migration peaked in the late 2000s, stabilized through the 2010s, then collapsed dramatically during the COVID-19 pandemic (2020–2021) before rebounding strongly.</p>
+            <p>Note that Australian-born migration is often negative — more Australian citizens depart than return in most years, reflecting outbound migration for work, study, and lifestyle.</p>
           </div>
         </div>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-right">
-            <p><strong>Key observations:</strong><br>
-            1. placeholder.<br>
-            2. placeholder.<br>
-            3. placeholder.</p>
+            <div class="key-insight">
+              <strong>Timeline highlights:</strong>
+              <ul class="insight-list">
+                <li><strong>2008–2009:</strong> Peak migration coinciding with mining boom and university expansion</li>
+                <li><strong>2020–2021:</strong> Historic collapse as border closures halted all migration categories</li>
+                <li><strong>2022–2023:</strong> Rapid recovery driven by pent-up student demand and reopening of skilled migration pathways</li>
+                <li><strong>Overall trend:</strong> Net migration = Arrivals minus Departures; these are absolute counts, not per-capita rates</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="subsection">
-      <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>How Migration Changes Over Time</h2>
-        </div>
+    <!-- Section 2: Migration Types (WHY THEY COME) -->
+    <section class="subsection" aria-labelledby="section2-heading">
+      <div class="section-header">
+        <span class="section-icon">📋</span>
+        <h2 id="section2-heading">Why They Come: Visa Categories</h2>
       </div>
 
       <div class="pure-g">
         <div class="pure-u-1-1">
-          <p class="chartTitle">Timeline Of Migration</p>
-          <div id="migration-timeline" class="vis-container"></div>
-          <p style="text-align:center; font-size:12px; margin-top:6px">
-            <b>How to interact:</b> Drag the slider to focus on a specific year. 
-            Points and labels show values for that year. 
-            Click a legend item (if available) to highlight that series.
-          </p>
+          <p class="chartTitle">Migration by Visa Category</p>
+          <div id="migration-type" class="vis-container" role="img" aria-label="Stacked area chart showing migration by visa type over time"></div>
+          <p class="interaction-hint">💡 Click on legend items to highlight specific visa types • Double-click to reset</p>
         </div>
       </div>
 
       <div class="pure-g">
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
-            <p>Net migration peaks in the late 2000s, dips slightly, then collapses during 2020–21 
-            when borders closed. A strong rebound occurs in 2022–23. 
-            Australian-born migration is often negative because more Australians leave than return.</p>
+            <p>Now that we've seen the overall trend, let's understand <strong>why migrants come</strong>. This chart breaks down migration by <strong>visa category</strong>, revealing the policy levers that shape Australia's intake.</p>
+            <p><strong>Skilled visas</strong> include permanent skilled workers and temporary skilled placements (TSS/457). <strong>Student visas</strong> cover higher education and vocational training. <strong>Humanitarian visas</strong> reflect refugee and protection programs. <strong>Other</strong> includes family, working holiday, and miscellaneous categories.</p>
           </div>
         </div>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-right">
-            <p>Net migration = Arrivals − Departures. 
-            Compare patterns rather than isolated spikes. 
-            These are absolute counts, not per-capita values.</p>
+            <div class="key-insight">
+              <strong>Visa category insights:</strong>
+              <ul class="insight-list">
+                <li><strong>Student migration dominates:</strong> International students represent the largest single category, especially post-2015</li>
+                <li><strong>Skilled migration resilience:</strong> Skilled visas remain a consistent contributor, though fluctuating with labour demand</li>
+                <li><strong>COVID-19 impact:</strong> All categories collapsed in 2020–21, but student visas recovered fastest</li>
+                <li><strong>Humanitarian intake:</strong> Remains relatively small but stable, reflecting policy commitments rather than economic cycles</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="subsection">
-      <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>What Type Of Migration</h2>
-        </div>
+    <!-- Section 3: Where Migrants Come From (GEOGRAPHIC VIEW) -->
+    <section class="subsection" aria-labelledby="section3-heading">
+      <div class="section-header">
+        <span class="section-icon">🌏</span>
+        <h2 id="section3-heading">Where They Come From: Global Sources</h2>
       </div>
 
       <div class="pure-g">
         <div class="pure-u-1-1">
-          <p class="chartTitle">Migration By Type</p>
-          <div id="migration-type" class="vis-container"></div>
+          <p class="chartTitle">Global Migration Sources to Australia</p>
+          <div id="migration-map" class="vis-container" role="img" aria-label="Interactive world map showing migration to Australia by country of origin"></div>
+          <p class="interaction-hint">💡 Use the year slider to explore how source countries have changed over time • Hover over any country to see exact migration numbers</p>
         </div>
       </div>
 
       <div class="pure-g">
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
-            <p>This chart breaks migration into visa types. 
-            Skilled visas include both permanent workers and temporary skilled placements. 
-            Student visas cover higher education and vocational training. 
-            Humanitarian visas reflect protection and refugee programs. 
-            Other categories include working holiday, visitors, and miscellaneous temporary visas.</p>
+            <p>Australia draws migrants from across the globe, with Asia emerging as the dominant source region. The interactive map reveals geographic patterns — darker colours indicate higher migration volumes.</p>
+            <p>Use the slider to track shifts over time. You'll notice that traditional source countries like the UK remain important, but Asian countries — particularly India and China — have grown dramatically since 2004.</p>
           </div>
         </div>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-right">
-            <p>A stacked area chart shows both total volume and the share each visa type contributes. 
-            Large swings around 2020 reflect policy changes and border closures rather than long-term trends. 
-            If you want to compare proportions instead of totals, a normalised (percent) view is useful.</p>
+            <div class="key-insight">
+              <strong>Key insights:</strong>
+              <ul class="insight-list">
+                <li>India overtook China as the top source country around 2017, driven by student and skilled migration programs</li>
+                <li>Southeast Asian countries (Malaysia, Philippines, Vietnam) have consistently contributed significant migrant numbers</li>
+                <li>Migration from Europe and the Americas remains steady but represents a declining share of total inflows</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- New section: Top countries -->
-    <div class="subsection">
-      <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>Top Migrant Source Countries</h2>
-        </div>
+    <!-- Section 4: Top Source Countries (DETAILED RANKING) -->
+    <section class="subsection" aria-labelledby="section4-heading">
+      <div class="section-header">
+        <span class="section-icon">🏆</span>
+        <h2 id="section4-heading">Top Source Countries: The Rankings</h2>
       </div>
 
       <div class="pure-g">
         <div class="pure-u-1-1">
-          <p class="chartTitle">Top 10 Migrant Source Countries by Year</p>
-          <div id="migration-countrychart" class="vis-container"></div>
-          <p style="text-align:center; font-size:12px; margin-top:6px">
-            Move the slider to see how the top countries change over time. 
-            This bar chart highlights ranking and magnitude better than a map.
-          </p>
+          <p class="chartTitle">Top 10 Countries Contributing to Australian Migration</p>
+          <div id="migration-countrychart" class="vis-container" role="img" aria-label="Bar chart showing top 10 source countries for Australian migration"></div>
+          <p class="interaction-hint">💡 Move the year slider to see how rankings change • Note the dramatic shift from European to Asian dominance</p>
         </div>
       </div>
-    </div>
 
-    <!-- New section: State Migration -->
-    <div class="subsection">
       <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>State Migration</h2>
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-left">
+            <p>This ranked view highlights which countries send the most migrants to Australia each year. Unlike the map, which emphasizes geography, this chart focuses on <strong>magnitude and ranking</strong>.</p>
+            <p>Watch how the composition shifts: in 2004, China, New Zealand, and India dominated. By 2023, India leads by a significant margin (over 75,000 migrants), followed by China, the Philippines, and New Zealand.</p>
+          </div>
         </div>
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-right">
+            <div class="key-insight">
+              <strong>What changed?</strong>
+              <ul class="insight-list">
+                <li><strong>India's rise:</strong> Student visa growth and skilled migration pathways propelled India to #1, with numbers tripling from 2004 to 2023</li>
+                <li><strong>Asian dominance:</strong> By 2023, 8 of the top 10 countries are Asian (India, China, Philippines, Vietnam, Nepal, Sri Lanka, Pakistan, Indonesia)</li>
+                <li><strong>New entrants:</strong> Nepal, Afghanistan, and Indonesia have entered the top 10 in recent years, while traditional sources like the UK and USA have dropped in rankings</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Migration by Age and Gender (WHO THEY ARE) -->
+    <section class="subsection" aria-labelledby="section5-heading">
+      <div class="section-header">
+        <span class="section-icon">�</span>
+        <h2 id="section5-heading">Who They Are: Age and Gender Profile</h2>
       </div>
 
       <div class="pure-g">
         <div class="pure-u-1-1">
-          <p class="chartTitle">Migration Between Australian States</p>
-          <div id="state-migration" class="vis-container"></div>
-          <p style="text-align:center; font-size:12px; margin-top:6px">
-            This map visualises internal migration across Australian states and territories.
-            Darker shades represent higher migration inflows. Use hover or filters to explore movement patterns.
-          </p>
+          <p class="chartTitle">Population Distribution by Age and Gender</p>
+          <div id="age-gender-chart" class="vis-container" role="img" aria-label="Line chart showing population by age and gender"></div>
+          <p class="interaction-hint">💡 Select a year to compare population distributions • Hover over the lines to see exact values</p>
         </div>
       </div>
 
       <div class="pure-g">
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
-            <p>This visual focuses on internal mobility within Australia —
-            showing where residents are moving between states. It helps identify
-            population shifts driven by economic, lifestyle, or housing factors.</p>
+            <p>Understanding <strong>who</strong> migrates is as important as understanding where they come from. This chart reveals the <strong>age and gender distribution</strong> of migrants arriving in Australia.</p>
+            <p>Notice the concentration of migrants in the 20-35 age range, reflecting the dominance of student and skilled migration programs that target younger, working-age populations.</p>
           </div>
         </div>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-right">
-            <p><strong>Key insights to note:</strong><br>
-            1. placeholder.<br>
-            2. placeholder.<br>
-            3. placeholder.</p>
+            <div class="key-insight">
+              <strong>Demographic insights:</strong>
+              <ul class="insight-list">
+                <li><strong>Youth concentration:</strong> Most migrants are aged 20-35, prime working and studying ages</li>
+                <li><strong>Gender balance:</strong> Migration shows relatively balanced gender distribution, though patterns vary by age group</li>
+                <li><strong>Declining with age:</strong> Migration numbers drop significantly after age 40, reflecting visa requirements and economic factors</li>
+                <li><strong>Temporal shifts:</strong> Compare different years to see how demographic patterns have evolved post-COVID</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="subsection">
+    <!-- Section 6: Migration Between Australian States (WHERE THEY SETTLE) -->
+    <!-- Section 6: Migration Between Australian States (WHERE THEY SETTLE) -->
+    <section class="subsection" aria-labelledby="section6-heading">
+      <div class="section-header">
+        <span class="section-icon">🧭</span>
+        <h2 id="section6-heading">Where They Settle: State Distribution</h2>
+      </div>
+
       <div class="pure-g">
-        <div class="pure-u-1-1 subtitle">
-          <h2>Summary</h2>
+        <div class="pure-u-1-1">
+          <p class="chartTitle">Net Overseas Migration by State/Territory (2004–2023)</p>
+          <div id="state-migration" class="vis-container" role="img" aria-label="Map of Australia showing net migration by state and territory"></div>
+          <p class="interaction-hint">💡 Use the year slider to explore how migration patterns vary across states • Darker colours indicate higher net migration</p>
         </div>
       </div>
 
       <div class="pure-g">
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-left">
-            <p>Australia’s migration is shaped by policy, global events, and labour demand. 
-            Despite temporary declines like during COVID-19, long-term growth in student and skilled migration 
-            has reshaped the country’s demographic profile.</p>
+            <p>Migration to Australia isn't evenly distributed. This map shows <strong>net overseas migration by state and territory</strong>, revealing where new arrivals choose to settle.</p>
+            <p>Major cities in New South Wales, Victoria, and Queensland attract the lion's share of migrants due to employment opportunities, universities, and established migrant communities.</p>
           </div>
         </div>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1 pure-u-md-1-2">
           <div class="description-right">
-            <p>Next questions to explore include how states differ, 
-            which industries benefit most, and how policy settings influence visa composition. 
-            Limitations: grouped categories and financial-year timing may hide smaller monthly shifts.</p>
+            <div class="key-insight">
+              <strong>Settlement patterns:</strong>
+              <ul class="insight-list">
+                <li><strong>NSW and Victoria dominate:</strong> Sydney and Melbourne remain Australia's primary migrant destinations, driven by universities and job markets</li>
+                <li><strong>Queensland's growth:</strong> Southeast Queensland has steadily increased its share, particularly post-2010</li>
+                <li><strong>Western Australia volatility:</strong> Migration to WA fluctuates with mining cycles and economic conditions</li>
+                <li><strong>Regional challenges:</strong> Smaller states and territories struggle to attract and retain migrants despite regional migration incentives</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-  </div>
+    <!-- Section 7: Australian-born vs Overseas-born Population (THE CUMULATIVE IMPACT) -->
+    <section class="subsection" aria-labelledby="section7-heading">
+      <div class="section-header">
+        <span class="section-icon">👥</span>
+        <h2 id="section7-heading">The Cumulative Impact: Australia's Diverse Population</h2>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <p class="chartTitle">Australia's Population by Country of Birth, 2024</p>
+          <div id="population-piechart" class="vis-container" role="img" aria-label="Pie chart showing Australia's population distribution by country of birth"></div>
+          <p class="interaction-hint">💡 Hover over segments to see exact population figures and percentages</p>
+        </div>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-left">
+            <p>This final visualization shows the <strong>cumulative result</strong> of decades of migration policy. This snapshot of Australia's <strong>resident population by country of birth</strong> as of 2024 captures how migration has transformed the nation.</p>
+            <p>While Australian-born residents still form the majority, the overseas-born share has grown substantially. The UK remains the largest single overseas birthplace, but Asian countries now collectively represent a major proportion of the population.</p>
+          </div>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-right">
+            <div class="key-insight">
+              <strong>Population composition:</strong>
+              <ul class="insight-list">
+                <li><strong>Nearly 30% overseas-born:</strong> Australia ranks among the world's most culturally diverse nations</li>
+                <li><strong>UK historical dominance:</strong> Despite declining recent migration, the UK remains the top overseas birthplace due to historical waves</li>
+                <li><strong>Asian growth:</strong> India, China, Philippines, and Vietnam are rapidly increasing their representation</li>
+                <li><strong>Generational shift:</strong> Second-generation Australians (children of migrants) are counted as Australian-born, meaning the true migrant heritage is even larger</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 8: Summary & Key Insights -->    <!-- Section 6: Australian-born vs Overseas-born Population -->
+   
+
+    <!-- Section 7: Summary & Key Insights -->
+    <section class="subsection" aria-labelledby="summary-heading">
+      <div class="section-header">
+        <span class="section-icon">💡</span>
+        <h2 id="summary-heading">Summary & Key Insights</h2>
+      </div>
+
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-left">
+            <h3 style="color: #1A3D7C; font-size: 1.3em; margin-top: 0;">What the data tells us</h3>
+            <p>Australia's migration system has undergone profound transformation over the past two decades. The shift from European to Asian source countries, the rise of student migration as a dominant pathway, and the system's resilience through economic and health crises all point to migration's central role in Australia's economic and demographic future.</p>
+            <p><strong>Skilled and student migration remain Australia's largest entry streams</strong>, driving population growth concentrated in major cities — particularly Sydney and Melbourne. This shapes labour markets, housing demand, and cultural diversity.</p>
+          </div>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="description-right">
+            <h3 style="color: #D32F2F; font-size: 1.3em; margin-top: 0;">Questions for further exploration</h3>
+            <p>This dashboard raises important questions for policymakers and researchers:</p>
+            <ul class="insight-list">
+              <li>How can regional Australia better attract and retain migrants?</li>
+              <li>What industries benefit most from skilled migration, and are there mismatches between visa settings and labour needs?</li>
+              <li>How do monthly migration flows differ from annual trends, and what does this reveal about seasonal patterns?</li>
+              <li>What role does return migration play, and why do so many Australian-born residents leave?</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>Data limitations:</strong> Some categories are grouped for clarity. Financial-year aggregation may obscure monthly volatility. Temporary visa holders who later gain permanent residency may be double-counted across categories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <p><strong>Australian Migration Dashboard (2004–2023)</strong></p>
+    <p><strong>Author:</strong> Lohith Karthesan <strong>Created:</strong> October 2025</p>
+    <p><strong>Data Sources:</strong></p>
+    <ul style="list-style: none; padding: 0; margin: 10px 0;">
+      <li>• Australian Bureau of Statistics (ABS) - <a href="https://www.abs.gov.au/statistics/people/population/overseas-migration" target="_blank" rel="noopener">Overseas Migration Statistics</a></li>
+      <li>• ABS - <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population" target="_blank" rel="noopener">Population by Country of Birth</a></li>
+      <li>• Data repository: <a href="https://github.com/loh-0/australian-migration" target="_blank" rel="noopener">github.com/loh-0/australian-migration</a></li>
+    </ul>
+    <p><strong>Visualization:</strong> Created with <a href="https://vega.github.io/vega-lite/" target="_blank" rel="noopener">Vega-Lite 5</a> and <a href="https://purecss.io/" target="_blank" rel="noopener">Pure CSS</a></p>
+    <p style="font-size: 0.85em; margin-top: 15px; opacity: 0.9;">This dashboard explores 20 years of Australian migration data, examining trends in arrivals, visa types, source countries, demographics, and settlement patterns.</p>
+  </footer>  </div>
 
   <script>
-    // point these to your repo JSON files
+    // Vega-Lite specifications for all visualizations
     const MAP_SPEC = "migrationmap.json";
     const TIMELINE_SPEC = "migrationovertimeline.json";
     const TYPE_SPEC = "migrationtypechart.json";
     const COUNTRY_SPEC = "countrychart.json";
     const STATE_SPEC = "statemigration.json";
+    const PIE_SPEC = "piechart.json";
+    const AGE_GENDER_SPEC = "agegenderline.json";
 
+    // Embed all visualizations
     vegaEmbed("#migration-map", MAP_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-timeline", TIMELINE_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-type", TYPE_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#migration-countrychart", COUNTRY_SPEC, { actions: false }).catch(console.error);
     vegaEmbed("#state-migration", STATE_SPEC, { actions: false }).catch(console.error);
+    vegaEmbed("#population-piechart", PIE_SPEC, { actions: false }).catch(console.error);
+    vegaEmbed("#age-gender-chart", AGE_GENDER_SPEC, { actions: false }).catch(console.error);
   </script>
 </body>
 </html>

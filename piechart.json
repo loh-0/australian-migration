@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Pie chart showing Australia's estimated resident population by country of birth (2024)",
+  "title": {
+    "text": "Australia's Population by Country of Birth, 2024",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "anchor": "start"
+  },
+  "width": 700,
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/populationdistribution.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum['Country of birth'] != 'Total population'"
+    },
+    {
+      "filter": "datum['Country of birth'] != 'Total overseas-born'"
+    }
+  ],
+  "mark": {
+    "type": "arc",
+    "innerRadius": 80,
+    "stroke": "#fff",
+    "strokeWidth": 2
+  },
+  "encoding": {
+    "theta": {
+      "field": "Population_2024",
+      "type": "quantitative"
+    },
+    "color": {
+      "field": "Country of birth",
+      "type": "nominal",
+      "scale": {
+        "range": ["#2c5aa0", "#3d7ab8", "#5495cf", "#6baed6", "#9ecae1", "#c6dbef", "#d9534f", "#e67e73", "#f4a582", "#fdd0a2", "#fdebb1", "#fff5cc"]
+      },
+      "legend": {
+        "title": "Country of Birth",
+        "labelFontSize": 12,
+        "titleFontSize": 13,
+        "titleFontWeight": "bold",
+        "orient": "right",
+        "symbolSize": 150
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Country of birth",
+        "title": "Country"
+      },
+      {
+        "field": "Population_2024",
+        "type": "quantitative",
+        "format": ",",
+        "title": "Population (2024)"
+      },
+      {
+        "field": "Percent_2024",
+        "type": "quantitative",
+        "title": "Share (%)"
+      }
+    ]
+  },
+  "config": {
+    "background": "#f7fbff",
+    "view": {
+      "stroke": null
+    }
+  }
+}

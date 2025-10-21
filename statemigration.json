@@ -1,10 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 540,
+  "width": 1100,
+  "height": 600,
   "title": {
     "text": "Net Overseas Migration by State/Territory (2004–2023)",
-    "fontWeight": "bold"
+    "fontWeight": "bold",
+    "fontSize": 16,
+    "anchor": "start"
   },
   "projection": { "type": "mercator" },
 
@@ -46,19 +48,25 @@
     { "filter": "datum.geo != null" }
   ],
 
-  "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.7 },
+  "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 1.2 },
 
   "encoding": {
     "shape": { "field": "geo", "type": "geojson" },
     "color": {
       "field": "NetMigration",
       "type": "quantitative",
-      "title": "Net migrants",
+      "title": "Net Migrants",
       "scale": {
         "scheme": "redblue",
         "domainMid": 0
       },
-      "legend": { "format": ",d" }
+      "legend": {
+        "format": ",d",
+        "labelFontSize": 12,
+        "titleFontSize": 13,
+        "titleFontWeight": "bold",
+        "orient": "right"
+      }
     },
     "tooltip": [
       { "field": "STE_NAME21", "title": "State" },
@@ -69,7 +77,6 @@
 
   "config": {
     "background": "#f7fbff",
-    "view": { "stroke": null },
-    "legend": { "labelLimit": 140, "titleFontWeight": "bold" }
+    "view": { "stroke": null }
   }
 }

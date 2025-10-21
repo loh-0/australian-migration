@@ -1,11 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
-  "height": 400,
+  "width": 1100,
+  "height": 450,
   "title": {
     "text": "Population by Age, Gender, and Year",
     "fontWeight": "bold",
-    "fontSize": 18
+    "fontSize": 16,
+    "anchor": "start"
   },
   "data": {
     "url": "https://raw.githubusercontent.com/loh-0/australian-migration/refs/heads/main/data/agemigration.csv",
@@ -27,31 +28,55 @@
     {
       "fold": ["males", "females"],
       "as": ["gender", "population"]
+    },
+    {
+      "calculate": "datum.gender == 'males' ? 'Male' : 'Female'",
+      "as": "gender_label"
     }
   ],
-  "mark": {"type": "line", "point": true},
+  "mark": {"type": "line", "point": true, "strokeWidth": 3, "size": 80},
   "encoding": {
     "x": {
       "field": "Age",
       "type": "quantitative",
-      "title": "Age"
+      "title": "Age",
+      "axis": {
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      }
     },
     "y": {
       "field": "population",
       "type": "quantitative",
-      "title": "Population"
+      "title": "Population",
+      "axis": {
+        "labelExpr": "format(datum.value, ',.0f')",
+        "labelFontSize": 12,
+        "titleFontSize": 14
+      }
     },
     "color": {
-      "field": "gender",
+      "field": "gender_label",
       "type": "nominal",
       "title": "Gender",
-      "scale": {"range": ["#1f77b4", "#ff7f0e"]}
+      "scale": {"range": ["#2c5aa0", "#d9534f"]},
+      "legend": {
+        "labelFontSize": 12,
+        "titleFontSize": 13,
+        "symbolSize": 150,
+        "symbolStrokeWidth": 3
+      }
     },
     "tooltip": [
       {"field": "Age", "type": "quantitative"},
-      {"field": "gender", "type": "nominal"},
-      {"field": "population", "type": "quantitative"},
-      {"field": "year", "type": "nominal"}
+      {"field": "gender_label", "type": "nominal", "title": "Gender"},
+      {"field": "population", "type": "quantitative", "format": ",", "title": "Population"},
+      {"field": "year", "type": "nominal", "title": "Year"}
     ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "background": "#f7fbff",
+    "axis": {"grid": true, "gridOpacity": 0.15}
   }
 }
